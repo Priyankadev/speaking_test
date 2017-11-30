@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}{% endblock %} -SPEAKING TEST</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=RobotoDrft' rel='stylesheet' type='text/css'>
+    <link rel="icon" href="{{ url_for('static', filename='img/images.jpg') }}">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/materialize.min.css') }}">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        {% block head %}{% endblock %}
+  </head>
+
+  <body>
+
+
+  <!---------------------------- NAVIGATION BAR BEGINS ---------------------------->
+<!-- Dropdown Structure -->
+    <ul id="dropdown1" class="dropdown-content">
+
+        {% if session['name'] %}
+        <li class="divider"></li>
+        <li><a href="{{ url_for('clearsession') }}">LOGOUT</a></li>
+
+        {% else %}
+        <li><a href="/candidate/signup">SIGN UP</a></li>
+        <li><a href="/candidate">SIGN IN</a></li>{% endif %}
+    </ul>
+
+    <ul id="dropdown2" class="dropdown-content">
+        {% if session['name'] %}
+        <li class="divider"></li>
+        <li><a href="{{ url_for('clearsession') }}">LOGOUT</a></li>
+        {% else %}
+        <li><a href="/candidate/signup">SIGN UP</a></li>
+        <li><a href="/candidate">SIGN IN</a></li>{% endif %}
+    </ul>
+
+    <nav>
+        <div class="nav-wrapper">
+            <a href="/exam" class="brand-logo">SPEAKING TEST</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse">
+                <i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/candidate/exam">Exam</a></li>
+                    <li><a href="/candidate/result">Result</a></li>
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown2">{{session['email']}}
+                        <i class="material-icons right">arrow_drop_down</i></a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    <li><a href="/candidate/exam">Exam</a></li>
+                    <li><a href="/candidate/result">Result</a></li>
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown1">{{session['email']}}
+                        <i class="material-icons right">arrow_drop_down</i></a></li>
+                </ul>
+        </div>
+    </nav>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+      <script>
+        $(".button-collapse").sideNav();
+      </script>
+  <!----------------------------- NAVIGATION BAR ENDS ----------------------------->
+
+
+
+                   {% block content %}{% endblock %}
+
+
+  <!----------------------------- FOOTER ----------------------------->
+
+    <footer class="page-footer">
+          <div class="footer-copyright">
+            <div class="container">
+           <center>
+
+      &copy; Copyright 2017 by <a search_companyhref="http://www.weavebytes.com/wbmain/index.php">weavebytes, Inc.</a>
+        </center>
+            </div>
+          </div>
+        </footer>
+    </body>
+  </html>

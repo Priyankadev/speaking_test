@@ -1,0 +1,13 @@
+{
+  "name": "speaking_test Heroku Login App",
+  "description": "speaking_test Heroku Login App",
+  "keywords": [
+    "speaking_test",
+    "python",
+    "sample"
+  ],
+  "repository": "https://github.com/Priyankadev/speaking_test.git",
+  "addons": [
+    "heroku-mongodb"
+  ]
+}

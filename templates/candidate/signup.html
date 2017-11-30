@@ -1,0 +1,46 @@
+{% extends "candidate/base.html" %}
+{% block title %}SIGNUP{% endblock %}
+{% block head %}
+  {{ super() }}
+
+{% endblock %}
+{% block content %}
+
+<p class="important">
+<center>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-md-offset-4">
+                    <h1 style="color: blue;">Sign up for your account</h1><br>
+                        <div class="account-wall">
+                            <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                                alt="">
+          <form class="form-signin"  action="/candidate/add_candidate" method="post">
+
+              <input type="text" class="form-control" placeholder="Candidate name" name="name" required autofocus>
+              <input type="email" class="form-control" placeholder="Email" name="email" required autofocus>
+              <input type="password" class="form-control" placeholder="Password" name="password" required autofocus>
+              <input type="text" class="form-control" placeholder="Age" name="age" required autofocus>
+              <input type="text" class="form-control" placeholder="Phone" name="phone" required autofocus>
+              <input type="text" class="form-control" placeholder="Address" name="address" required autofocus>
+              <p>GANDER :
+                    <input name="gender" type="radio" id="test2" value="male" required=""/>
+                    <label for="test2">MALE</label>
+
+                    <input name="gender" type="radio" id="test1" value="female" required=""/>
+                    <label for="test1">FEMALE</label>
+                </p><br><br>
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+
+         </form>
+
+                        </div>
+<a href="/candidate" class="text-center new-account">Signin </a><br><br><br>
+<br><br>
+                </div>
+            </div>
+        </div>
+</center>
+</p>
+{% endblock %}
+

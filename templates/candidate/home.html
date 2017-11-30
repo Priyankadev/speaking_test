@@ -1,0 +1,52 @@
+{% extends "candidate/base.html" %}
+{% block title %}HOME{% endblock %}
+{% block head %}
+  {{ super() }}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+{% endblock %}
+{% block content %}
+
+<p class="important">
+{% if session['name'] %}
+<center>
+
+<!--<h3>Find Jobs</h3></br></br></br></br>-->
+<!--<div class="row">-->
+    <!--<form class="col s12">-->
+      <!--<div class="row">-->
+        <!--<div class="input-field col s3">-->
+          <!--<input id="text" type="hidden" class="validate">-->
+        <!--</div>-->
+
+        <!--<div class="input-field col s3">-->
+          <!--<input id="text" type="text" class="validate" name="what" required="">-->
+          <!--<label for="text" data-error="wrong" data-success="right">job title, keyword or profile</label>-->
+        <!--</div>-->
+        <!--<div class="input-field col s3">-->
+          <!--<input id="text" type="text" class="validate" name="where" required="">-->
+          <!--<label for="text" data-error="wrong" data-success="right">city or state</label>-->
+        <!--</div>-->
+      <!--</div>-->
+        <!--<button class="btn waves-effect waves-light" type="submit">find job-->
+    <!--<i class="material-icons right">send</i>-->
+  <!--</button>-->
+
+    <!--</form>-->
+  <!--</div>-->
+
+</br></br></br></br></br></br></br></br>
+</center>
+
+
+  {% else %}
+
+    <p style="color: red"> You still didn't set your Email, do it
+        <a href="{{ url_for('candidate') }}">here</a></p>
+
+  {% include 'candidate/session.html' %}
+  {% endif %}
+</p>
+
+{% endblock %}
