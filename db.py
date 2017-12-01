@@ -96,6 +96,20 @@ class Mdb:
 
 ############################################################################
 #                                                                          #
+#                            GET TEST FROM DATABASE                        #
+#                                                                          #
+############################################################################
+    def get_test(self):
+        collection = self.db["test"]
+        # result = collection.find({})
+        result = collection.find().skip(self.db.test.count()-1)
+        ret = []
+        for data in result:
+            ret.append(data)
+        return ret
+
+############################################################################
+#                                                                          #
 #                        CANDIDATE SESSION INFORMATION                     #
 #                                                                          #
 ############################################################################

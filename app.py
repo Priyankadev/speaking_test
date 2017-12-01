@@ -198,7 +198,8 @@ def add_candidate():
 ############################################################################
 @app.route('/candidate/exam')
 def exam():
-    templateData = {'title': 'EXAM'}
+    data = mdb.get_test()
+    templateData = {'title': 'EXAM', 'data': data}
     return render_template('candidate/exam.html', session=session, **templateData)
 
 
