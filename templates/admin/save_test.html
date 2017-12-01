@@ -1,0 +1,33 @@
+{% extends "admin/admin_base.html" %}
+{% block title %}SAVE TEST{% endblock %}
+{% block head %}
+  {{ super() }}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+{% block content %}
+<p class="important">
+
+{% if session['email'] %}
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+    <!-- Header -->
+    <header class="w3-container" style="padding-top:0px">
+        <h5><b><i class="fa fa-dashboard"></i> Candidates</b></h5>
+    </header>
+
+    <div class="w3-container">
+        <br><br><br><br><br><br><br><br><br><br><br>
+            <p style="text-align: center; color:green;">ADD TEST SUCCESSFULLY ...</p>
+        <br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+
+{% else %}
+    <p style="color: red"> You still didn't set your Email, do it
+        <a href="{{ url_for('admin') }}">here</a></p>
+
+  {% endif %}
+</p>
+
+{% endblock %}

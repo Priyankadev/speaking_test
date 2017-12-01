@@ -193,6 +193,28 @@ def add_candidate():
 
 ############################################################################
 #                                                                          #
+#                              CANDIDATE SIGNUP                            #
+#                                                                          #
+############################################################################
+@app.route('/candidate/exam')
+def exam():
+    templateData = {'title': 'EXAM'}
+    return render_template('candidate/exam.html', session=session, **templateData)
+
+
+############################################################################
+#                                                                          #
+#                              CANDIDATE SIGNUP                            #
+#                                                                          #
+############################################################################
+@app.route('/candidate/result')
+def result():
+    templateData = {'title': 'RESULT'}
+    return render_template('candidate/result.html', session=session, **templateData)
+
+
+############################################################################
+#                                                                          #
 #                              CANDIDATE LOGIN                             #
 #        STORED INFORMATION[SESSION_ID, MAC_ADDRESS, IP OR BROWSER]        #
 #     SEESION TIME 30 MIN (SEESION LOGOUT AUTOMATICALLY AFTER 30 MINs      #
@@ -276,6 +298,152 @@ def clearsession():
     except Exception as exp:
         return 'clearsession() :: Got Exception: %s' % exp
 
+
+##############################################################################
+#                                                                            #
+#                                                                            #
+#                                                                            #
+#                                ADMIN PANNEL                                #
+#                                                                            #
+#                                                                            #
+#                                                                            #
+##############################################################################
+##############################################################################
+#                                                                            #
+#                                 ADMIN ROUTE                                #
+#                                                                            #
+##############################################################################
+@app.route('/admin')
+def admin():
+    templateData = {'title': 'index page'}
+    return render_template('admin/login.html', **templateData)
+
+
+##############################################################################
+#                                                                            #
+#                                 ADMIN HOME                                 #
+#                                                                            #
+##############################################################################
+@app.route('/admin/home')
+def home():
+    templateData = {'title': 'home page'}
+    return render_template('admin/home.html', **templateData)
+
+
+##############################################################################
+#                                                                            #
+#                                   ADMIN LOGIN                              #
+#                                                                            #
+##############################################################################
+@app.route('/admin/admin_login', methods=['POST'])
+def admin_login():
+    ret = {'err': 0}
+    try:
+
+        sumSessionCounter()
+        email = request.form['email']
+        password = request.form['password']
+
+        if mdb.admin_exists(email, password):
+            # name = mdb.get_admin_name(email)
+            session['email'] = email
+
+            expiry = datetime.datetime.utcnow() + datetime.\
+                timedelta(minutes=30)
+            token = jwt.encode({'user': email, 'exp': expiry},
+                               app.config['secretkey'], algorithm='HS256')
+            ret['msg'] = 'Login successful'
+            ret['err'] = 0
+            ret['token'] = token.decode('UTF-8')
+            return render_template('admin/home.html', session=session)
+        else:
+            templateData = {'title': 'singin page'}
+            # Login Failed!
+            return render_template('/admin/login.html', session=session)
+            # return "Login faild"
+            ret['msg'] = 'Login Failed'
+            ret['err'] = 1
+
+    except Exception as exp:
+        ret['msg'] = '%s' % exp
+        ret['err'] = 1
+        print(traceback.format_exc())
+        # return jsonify(ret)
+        # return render_template('admin/home.html', session=session)
+
+
+##############################################################################
+#                                                                            #
+#                        GET ALL CANDIDATES DETAILS                          #
+#                                                                            #
+##############################################################################
+@app.route('/admin/candidates')
+def admin_candidates():
+    data = mdb.get_candidates()
+    templateData = {'title': 'Get candidates', 'data': data}
+    return render_template('admin/candidates.html', **templateData)
+
+
+##############################################################################
+#                                                                            #
+#                                CREATE TEST                                 #
+#                                                                            #
+##############################################################################
+@app.route('/admin/create_test')
+def create_test():
+    templateData = {'title': 'Create Test'}
+    return render_template('admin/create_test.html', **templateData)
+
+
+##############################################################################
+#                                                                            #
+#                                 SAVE TEST                                  #
+#                                                                            #
+##############################################################################
+@app.route('/admin/save_test', methods=['POST'])
+def save_test():
+    try:
+        name = request.form['name']
+        test = request.form['test']
+        mdb.add_test(name, test)
+        return render_template('admin/save_test.html', session=session)
+    except Exception as exp:
+        print('create_test() :: Got exception: %s' % exp)
+        print(traceback.format_exc())
+
+
+##############################################################################
+#                                                                            #
+#                                 GET ALL TEST                               #
+#                                                                            #
+##############################################################################
+@app.route('/admin/get_all_test')
+def get_all_test():
+    data = mdb.get_all_test()
+    templateData = {'title': 'ALL TEST', 'data': data}
+    return render_template('admin/get_all_test.html', **templateData)
+
+
+##############################################################################
+#                                                                            #
+#                              ADMIN SESSION LOGOUT                          #
+#                                                                            #
+##############################################################################
+@app.route('/clear2')
+def clearsession2():
+    session.clear()
+    return render_template('/admin/login.html', session=session)
+
+
+##############################################################################
+#                                                                            #
+#                    HADDLE THE ERROR AND SHOW THE 404 PAGE                  #
+#                                                                            #
+##############################################################################
+@app.errorhandler(404)
+def page_not_found(error):
+    app.logger.error('Page not found: %s', (request.path))
+    return render_template('admin/404.html'), 404
 
 ##############################################################################
 #                                                                            #

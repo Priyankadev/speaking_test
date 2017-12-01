@@ -123,6 +123,88 @@ class Mdb:
 #                                                                          #
 #                                                                          #
 #                                                                          #
+#                             ADMIN PANNEL                                 #
+#                                                                          #
+#                                                                          #
+#                                                                          #
+############################################################################
+############################################################################
+#                                                                          #
+#                      ADD ADMIN IN DATABASE BY HARD CODE                  #
+#                                                                          #
+############################################################################
+    def add_admin(self, email, password):
+        try:
+            rec = {
+                'email': email,
+                'password': password
+            }
+            self.db.admin.insert(rec)
+        except Exception as exp:
+            print ("add_admin() :: Got exception: %s", exp)
+            print(traceback.format_exc())
+
+############################################################################
+#                                                                          #
+#       CHECK EMAIL EXIST OR NOT IN DATABASE BEFORE LOGIN CANDIDATE        #
+#                                                                          #
+############################################################################
+    def admin_exists(self, email, password):
+
+        return self.db.admin.find({'email': email, 'password': password}).\
+                   count() > 0
+
+############################################################################
+#                                                                          #
+#                           GET CANDIDATES DATA                            #
+#                                                                          #
+############################################################################
+    def get_candidates(self):
+        collection = self.db["candidate"]
+        result = collection.find({})
+        ret = []
+        for data in result:
+            ret.append(data)
+        return ret
+
+############################################################################
+#                                                                          #
+#                       REGITRATION CANDIDATE IN DATABASE                  #
+#                                                                          #
+############################################################################
+    def add_test(self, name, test):
+        try:
+            ts = datetime.datetime.today().strftime("%a %b %d %X  %Y ")
+            rec = {
+                'name': name,
+                'test': test,
+                'timestamp':ts
+            }
+            self.db.test.insert(rec)
+
+        except Exception as exp:
+            print ("add_test() :: Got exception: %s", exp)
+            print(traceback.format_exc())
+
+
+
+############################################################################
+#                                                                          #
+#                          GET ALL TEST FROM DATABASE                      #
+#                                                                          #
+############################################################################
+    def get_all_test(self):
+        collection = self.db["test"]
+        result = collection.find({})
+        ret = []
+        for data in result:
+            ret.append(data)
+        return ret
+
+############################################################################
+#                                                                          #
+#                                                                          #
+#                                                                          #
 #                              MAIN                                        #
 #                                                                          #
 #                                                                          #

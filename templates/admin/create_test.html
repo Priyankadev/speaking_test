@@ -1,0 +1,54 @@
+{% extends "admin/admin_base.html" %}
+{% block title %}HOME{% endblock %}
+{% block head %}
+  {{ super() }}
+
+{% endblock %}
+{% block content %}
+
+<p class="important">
+
+{% if session['email'] %}
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+    <!-- Header -->
+    <header class="w3-container" style="padding-top:0px">
+        <h5><b><i class="fa fa-dashboard"></i> CREATE TEST</b></h5>
+    </header>
+
+    <div class="w3-container">
+
+    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+
+        <form action="/admin/save_test" id="usrform" method="post">
+        <tr>
+            <td style="text-align: center;">
+               Test Name: <input type="text" name="name" size="50" required=""><input type="submit" size="20">
+            </td>
+        </tr><br>
+        </form>
+
+        <tr>
+            <td style="text-align: center;">
+            <textarea rows="14" cols="158" name="test" form="usrform" required=""></textarea>
+            </td>
+        </tr>
+            <p><b>Note:</b> The form attribute is not supported in IE.</p>
+
+    </table></br>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  {% else %}
+  <p style="color: red"> You still didn't set your Email, do it
+      <a href="{{ url_for('admin') }}">here</a></p>
+  {% endif %}
+</p>
+
+{% endblock %}
+
+
+
