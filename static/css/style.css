@@ -14,7 +14,8 @@
 
 body
  {
-    //background-image: url("../img/map.png");
+    background-image: url("img/bg.jpg");
+    background-repeat: no-repeat;
     background-color: #cccccc;
 
     font-family: vardana;

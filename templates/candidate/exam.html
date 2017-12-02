@@ -3,44 +3,9 @@
 {% block head %}
   {{ super() }}
 
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shoelace-css/1.0.0-beta16/shoelace.css">
-<style>
-        .button
-          {
-            display: inline-block; vertical-align: middle; margin: 0px 5px; padding: 5px 12px; cursor: pointer; outline: none; font-size:
-            13px; text-decoration: none !important; text-align: center; color:#fff; background-color: #4D90FE; background-image: linear-gradient(top,#4D90FE, #4787ED);
-            background-image: -ms-linear-gradient(top,#4D90FE, #4787ED); background-image: -o-linear-gradient(top,#4D90FE, #4787ED);
-            background-image: linear-gradient(top,#4D90FE, #4787ED); border: 1px solid #4787ED; box-shadow: 0 1px 3px #BFBFBF;
-            }
+<!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">-->
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shoelace-css/1.0.0-beta16/shoelace.css">-->
 
-        a.button
-          {
-          color: #fff;
-          }
-
-        .button:hover
-          {
-          box-shadow: inset 0px 1px 1px #8C8C8C;
-          }
-
-        .button.disabled
-          {
-          box-shadow:none; opacity:0.7;
-          }
-
-        canvas
-          {
-          display: block;
-          }
-        body
-          {
-            background-image: url("img/bg.jpg");
-            background-repeat: no-repeat;
-          }
-          link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
-      </style>
 {% endblock %}
 {% block content %}
 
@@ -60,7 +25,7 @@
 
             {% for d in data %}
 
-            <center><h5>{{ d.name }}</h5></center><hr>
+            <center><h5>{{ d.name }}</h5></center><hr><br>
             <p> {{ d.test }} </p>
 
             {% endfor %}
@@ -72,31 +37,33 @@
         <div class="card">
           <center>
             <div class="card-content">
-              <h5>Record</h5><hr>
+              <h5>Record</h5><hr><br>
               <p>
                 <div class="app">
-                <!--<h3>Add New Note</h3>-->
-                <div class="input-single">
-                    <textarea id="note-textarea" placeholder="Start the test using voice recognition." rows="6"></textarea>
+
+                  <div class="input-single">
+                    <textarea id="note-textarea" name="test" form="usrform" placeholder="Start the test using voice recognition." rows="10"></textarea>
+                  </div>
+
+                  <button id="start-record-btn" title="Start Recording">Start Recognition</button>
+                  <!--<button id="pause-record-btn" title="Pause Recording">Pause Recognition</button>-->
+                  <form action="/candidate/save_result" id="usrform" method="post">
+                    <input type="hidden" value="{{session['name']}}" name="name">
+                    <input type="submit" size="20">
+                  </form>
+
+                  <!--<button id="save-note-btn" title="Save Note">Save Note</button><br><br>-->
+                  <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>
+
+                  <!--<hr><h4 style="color:blue;">My Notes</h4>-->
+                  <!--<ul id="notes">-->
+                    <!--<li>-->
+                        <!--<p class="no-notes">You don't have any notes.</p>-->
+                    <!--</li>-->
+                  <!--</ul>-->
                 </div>
-                <button id="start-record-btn" title="Start Recording">Start Recognition</button>
-                <button id="pause-record-btn" title="Pause Recording">Pause Recognition</button>
-                <button id="save-note-btn" title="Save Note">Save Note</button>
-                <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>
-
-                <h3>My Notes</h3>
-                <ul id="notes">
-                    <li>
-                        <p class="no-notes">You don't have any notes.</p>
-                    </li>
-                </ul>
-            </div>
-
-
                 <!--</div>-->
               </p>
-
-
             </div>
           </center>
         </div>
@@ -106,12 +73,11 @@
         <div class="card"></div>
       </div>
     </div>
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>-->
 
 </center>
-
 
   {% else %}
 

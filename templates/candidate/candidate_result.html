@@ -1,0 +1,49 @@
+{% extends "candidate/base.html" %}
+{% block title %}HOME{% endblock %}
+{% block head %}
+  {{ super() }}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+{% endblock %}
+{% block content %}
+
+<p class="important">
+{% if session['name'] %}
+<center>
+    <div class="w3-container">
+    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+                <thead >
+        <tr>
+            <th style="text-align: center;">CANDIDATE NAME</th>
+            <th style="text-align: center;">TEST NAME</th>
+            <th style="text-align: center;">RESULT</th>
+            <th style="text-align: center;">TIME</th>
+        </tr>
+        </thead>
+        {% for d in data %}
+
+        <tbody>
+        <tr>
+            <b><td  style="text-align: center;">{{ d.candidate }}</td></b>
+            <b><td  style="text-align: center;">{{ d.test_name }}</td></b>
+            <b><td  style="text-align: center;">{{ d.result }}</td></b>
+            <b><td  style="text-align: center;">{{ d.timestamp }}</td></b>
+        </tr>
+        </tbody>
+{% endfor %}
+    </table></br>
+  </div>
+</center>
+
+
+  {% else %}
+
+    <p style="color: red"> You still didn't set your Email, do it
+        <a href="{{ url_for('candidate') }}">here</a></p>
+
+  {% include 'candidate/session.html' %}
+  {% endif %}
+</p>
+
+{% endblock %}

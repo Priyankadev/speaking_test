@@ -49,7 +49,6 @@ recognition.onerror = function(event) {
 }
 
 
-
 //-----------------------------
 //      App buttons and input 
 //-----------------------------
@@ -59,15 +58,14 @@ $('#start-record-btn').on('click', function(e) {
     noteContent += ' ';
   }
   recognition.start();
-  alert("record");
+//  alert("record");
 });
 
 
 $('#pause-record-btn').on('click', function(e) {
   recognition.stop();
-  alert("stop");
   instructions.text('Voice recognition paused.');
-  alert("paused");
+//  alert("paused");
 });
 
 
@@ -180,7 +178,7 @@ function getAllNotes() {
         date: key.replace('note-',''),
         content: localStorage.getItem(localStorage.key(i))
       });
-    } 
+    }
   }
   return notes;
 }

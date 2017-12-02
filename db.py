@@ -110,6 +110,20 @@ class Mdb:
 
 ############################################################################
 #                                                                          #
+#                            GET TEST FROM DATABASE                        #
+#                                                                          #
+############################################################################
+    def get_result(self):
+        collection = self.db["result"]
+        # result = collection.find({})
+        result = collection.find().skip(self.db.result.count()-1)
+        ret = []
+        for data in result:
+            ret.append(data)
+        return ret
+
+############################################################################
+#                                                                          #
 #                        CANDIDATE SESSION INFORMATION                     #
 #                                                                          #
 ############################################################################
@@ -199,6 +213,28 @@ class Mdb:
         except Exception as exp:
             print ("add_test() :: Got exception: %s", exp)
             print(traceback.format_exc())
+
+
+############################################################################
+#                                                                          #
+#                       REGITRATION CANDIDATE IN DATABASE                  #
+#                                                                          #
+############################################################################
+    def save_result(self, candidate, test_name, test):
+        try:
+            ts = datetime.datetime.today().strftime("%a %b %d %X  %Y ")
+            rec = {
+                'candidate': candidate,
+                'test_name': test_name,
+                'result': test,
+                'timestamp':ts
+            }
+            self.db.result.insert(rec)
+
+        except Exception as exp:
+            print ("save_result() :: Got exception: %s", exp)
+            print(traceback.format_exc())
+
 
 
 

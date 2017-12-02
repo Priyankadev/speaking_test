@@ -8,8 +8,9 @@ from uuid import getnode as get_mac
 from flask.ext.bcrypt import Bcrypt
 from bson.objectid import ObjectId
 from functools import wraps
-import time
+from difflib import SequenceMatcher
 from datetime import datetime, timedelta
+import time
 import datetime
 import traceback
 import flask_login
@@ -138,7 +139,7 @@ def token_required(f):
 @app.route('/candidate')
 @app.route('/')
 def candidate():
-    templateData = {'title': 'Login Page'}
+    templateData = {'title': 'SIGNIN'}
     return render_template('candidate/home.html', session=session, **templateData)
 
 
@@ -149,7 +150,7 @@ def candidate():
 ############################################################################
 @app.route('/candidate/signup')
 def candidate_signup():
-    templateData = {'title': 'Signup page'}
+    templateData = {'title': 'SIGNUP'}
     return render_template('candidate/signup.html', session=session, **templateData)
 
 
@@ -177,7 +178,7 @@ def add_candidate():
         check = mdb.check_email(email)
         if check:
             print("This Email Already Used")
-            templateData = {'title': 'Signup Page'}
+            templateData = {'title': 'ADD CANDIDATE'}
             return render_template('candidate/signup.html', **templateData)
 
         else:
@@ -277,6 +278,31 @@ def candidate_login():
     return render_template('candidate/home.html', session=session)
 
 
+##############################################################################
+#                                                                            #
+#                                 SAVE TEST                                  #
+#                                                                            #
+##############################################################################
+@app.route('/candidate/save_result', methods=['POST'])
+def save_result():
+    try:
+        candidate = request.form['name']
+        test = request.form['test']
+        comparison = ''
+        for data in mdb.get_test():
+            db_data = data['test']
+            test_name = data['name']
+            comparison = str(SequenceMatcher(None, test, db_data).ratio() * 100)
+        print('Comparison in percentage %s' % comparison)
+        mdb.save_result(candidate, test_name, comparison)
+        data = mdb.get_result();
+        templateData = {'title': 'RESULT', 'data': data}
+        return render_template('candidate/candidate_result.html', session=session, **templateData)
+    except Exception as exp:
+        print('save_result() :: Got exception: %s' % exp)
+        print(traceback.format_exc())
+
+
 ############################################################################
 #                                                                          #
 #                       CANDIDATE SESSION LOGOUT                           #
@@ -316,7 +342,7 @@ def clearsession():
 ##############################################################################
 @app.route('/admin')
 def admin():
-    templateData = {'title': 'index page'}
+    templateData = {'title': 'LOGIN'}
     return render_template('admin/login.html', **templateData)
 
 
@@ -327,7 +353,7 @@ def admin():
 ##############################################################################
 @app.route('/admin/home')
 def home():
-    templateData = {'title': 'home page'}
+    templateData = {'title': 'HOME'}
     return render_template('admin/home.html', **templateData)
 
 
@@ -381,7 +407,7 @@ def admin_login():
 @app.route('/admin/candidates')
 def admin_candidates():
     data = mdb.get_candidates()
-    templateData = {'title': 'Get candidates', 'data': data}
+    templateData = {'title': 'CANDIDATES', 'data': data}
     return render_template('admin/candidates.html', **templateData)
 
 
@@ -392,7 +418,7 @@ def admin_candidates():
 ##############################################################################
 @app.route('/admin/create_test')
 def create_test():
-    templateData = {'title': 'Create Test'}
+    templateData = {'title': 'CREATE TEST'}
     return render_template('admin/create_test.html', **templateData)
 
 
@@ -421,7 +447,7 @@ def save_test():
 @app.route('/admin/get_all_test')
 def get_all_test():
     data = mdb.get_all_test()
-    templateData = {'title': 'ALL TEST', 'data': data}
+    templateData = {'title': 'GET ALL TEST', 'data': data}
     return render_template('admin/get_all_test.html', **templateData)
 
 
@@ -457,4 +483,4 @@ def page_not_found(error):
 ##############################################################################
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True, threaded=True)
+    app.run(host='127.0.0.1', port=port, debug=True, threaded=True)
