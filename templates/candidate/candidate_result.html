@@ -3,15 +3,15 @@
 {% block head %}
   {{ super() }}
 
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-
 {% endblock %}
 {% block content %}
 
 <p class="important">
 {% if session['name'] %}
 <center>
-    <div class="w3-container">
+  <h3 class="well">Your Result</h3><hr>
+    <div class="col-lg-12 well">
+      <div class="row">
     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
                 <thead >
         <tr>
@@ -32,8 +32,9 @@
         </tr>
         </tbody>
 {% endfor %}
-    </table></br>
+    </table></br></br></br></br></br></br></br></br></br></br></br>
   </div>
+    </div>
 </center>
 
 

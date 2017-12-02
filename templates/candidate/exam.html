@@ -3,16 +3,13 @@
 {% block head %}
   {{ super() }}
 
-<!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">-->
-<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shoelace-css/1.0.0-beta16/shoelace.css">-->
-
 {% endblock %}
 {% block content %}
 
 <p class="important">
 {% if session['name'] %}
-<!--<div class="container">-->
-  <center><h4>VOICE TEST</h4></center></br>
+<center><h3 class="well">VOICE TEST</h3></center><hr><br><br><br>
+    <div class="col-lg-12 well">
     <div class="row">
 
       <div class="col s12 m1">
@@ -42,27 +39,17 @@
                 <div class="app">
 
                   <div class="input-single">
-                    <textarea id="note-textarea" name="test" form="usrform" placeholder="Start the test using voice recognition." rows="10"></textarea>
+                    <textarea id="note-textarea" name="test" form="usrform" required="" placeholder="Start the test using voice recognition." rows="10"></textarea>
                   </div>
 
                   <button id="start-record-btn" title="Start Recording">Start Recognition</button>
-                  <!--<button id="pause-record-btn" title="Pause Recording">Pause Recognition</button>-->
-                  <form action="/candidate/save_result" id="usrform" method="post">
+                    <form action="/candidate/save_result" id="usrform" method="post">
                     <input type="hidden" value="{{session['name']}}" name="name">
                     <input type="submit" size="20">
                   </form>
-
-                  <!--<button id="save-note-btn" title="Save Note">Save Note</button><br><br>-->
                   <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>
-
-                  <!--<hr><h4 style="color:blue;">My Notes</h4>-->
-                  <!--<ul id="notes">-->
-                    <!--<li>-->
-                        <!--<p class="no-notes">You don't have any notes.</p>-->
-                    <!--</li>-->
-                  <!--</ul>-->
                 </div>
-                <!--</div>-->
+
               </p>
             </div>
           </center>
@@ -73,10 +60,8 @@
         <div class="card"></div>
       </div>
     </div>
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-  <!-- Compiled and minified JavaScript -->
-  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>-->
-
+</div><br><br>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </center>
 
   {% else %}

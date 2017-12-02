@@ -112,18 +112,11 @@ def token_required(f):
             data = jwt.decode(token, app.config['secretkey'])
         except:
             return jsonify({'message': 'Invalid token!'})
-############################################################################
-#                                                                          #
-#            CHECK EMAIL USER ALREADY REGISTERED OR NOT                    #
-#                                                                          #
-############################################################################
-
         return f(*args, **kwargs)
-
     return decorated
 
 
-############################################################################                                           #
+############################################################################
 #                                                                          #
 #                                                                          #
 #                              CANDIDATE PANNEL                            #
@@ -140,7 +133,8 @@ def token_required(f):
 @app.route('/')
 def candidate():
     templateData = {'title': 'SIGNIN'}
-    return render_template('candidate/home.html', session=session, **templateData)
+    return render_template('candidate/home.html', session=session,
+                           **templateData)
 
 
 ############################################################################
@@ -151,7 +145,8 @@ def candidate():
 @app.route('/candidate/signup')
 def candidate_signup():
     templateData = {'title': 'SIGNUP'}
-    return render_template('candidate/signup.html', session=session, **templateData)
+    return render_template('candidate/signup.html', session=session,
+                           **templateData)
 
 
 ############################################################################
@@ -182,7 +177,8 @@ def add_candidate():
             return render_template('candidate/signup.html', **templateData)
 
         else:
-            mdb.add_candidate(name, email, pw_hash, age, phone, address, gender)
+            mdb.add_candidate(name, email, pw_hash, age, phone, address,
+                              gender)
             print('User Is Added Successfully')
 
             return render_template('candidate/home.html', session=session)
@@ -194,25 +190,28 @@ def add_candidate():
 
 ############################################################################
 #                                                                          #
-#                              CANDIDATE SIGNUP                            #
+#                              CANDIDATE EXAM                              #
 #                                                                          #
 ############################################################################
 @app.route('/candidate/exam')
 def exam():
     data = mdb.get_test()
     templateData = {'title': 'EXAM', 'data': data}
-    return render_template('candidate/exam.html', session=session, **templateData)
+    return render_template('candidate/exam.html', session=session,
+                           **templateData)
 
 
 ############################################################################
 #                                                                          #
-#                              CANDIDATE SIGNUP                            #
+#                              CANDIDATE RESULT                            #
 #                                                                          #
 ############################################################################
 @app.route('/candidate/result')
 def result():
-    templateData = {'title': 'RESULT'}
-    return render_template('candidate/result.html', session=session, **templateData)
+    data = mdb.get_result()
+    templateData = {'title': 'RESULT', 'data': data}
+    return render_template('candidate/result.html', session=session,
+                           **templateData)
 
 
 ############################################################################
@@ -232,7 +231,7 @@ def candidate_login():
 
         if mdb.user_exists(email):
             pw_hash = mdb.get_password(email)
-            print ('password in server, get from db class', pw_hash)
+            print('password in server, get from db class', pw_hash)
             passw = bcrypt.check_password_hash(pw_hash, password)
 
             if passw == True:
@@ -280,7 +279,7 @@ def candidate_login():
 
 ##############################################################################
 #                                                                            #
-#                                 SAVE TEST                                  #
+#                                  SAVE RESULT                               #
 #                                                                            #
 ##############################################################################
 @app.route('/candidate/save_result', methods=['POST'])
@@ -292,12 +291,14 @@ def save_result():
         for data in mdb.get_test():
             db_data = data['test']
             test_name = data['name']
-            comparison = str(SequenceMatcher(None, test, db_data).ratio() * 100)
+            comparison = str(SequenceMatcher(None, test, db_data).ratio() *
+                             100)
         print('Comparison in percentage %s' % comparison)
-        mdb.save_result(candidate, test_name, comparison)
-        data = mdb.get_result();
+        mdb.save_result(candidate, test, comparison, test_name)
+        data = mdb.get_result()
         templateData = {'title': 'RESULT', 'data': data}
-        return render_template('candidate/candidate_result.html', session=session, **templateData)
+        return render_template('candidate/candidate_result.html',
+                               session=session, **templateData)
     except Exception as exp:
         print('save_result() :: Got exception: %s' % exp)
         print(traceback.format_exc())
@@ -449,6 +450,18 @@ def get_all_test():
     data = mdb.get_all_test()
     templateData = {'title': 'GET ALL TEST', 'data': data}
     return render_template('admin/get_all_test.html', **templateData)
+
+
+##############################################################################
+#                                                                            #
+#                                 GET RESULT                                 #
+#                                                                            #
+##############################################################################
+@app.route('/admin/result')
+def get_result():
+    data = mdb.get_results()
+    templateData = {'title': 'GET RESULTS', 'data': data}
+    return render_template('admin/result.html', **templateData)
 
 
 ##############################################################################

@@ -3,21 +3,36 @@
 {% block head %}
   {{ super() }}
 
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-
 {% endblock %}
 {% block content %}
 
 <p class="important">
 {% if session['name'] %}
 <center>
-<h1 class="well">result</h1>
+<h3 class="well">Last Result</h3><hr>
     <div class="col-lg-12 well">
       <div class="row">
+    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+                <thead >
+        <tr>
+            <th style="text-align: center;">CANDIDATE NAME</th>
+            <th style="text-align: center;">TEST NAME</th>
+            <th style="text-align: center;">RESULT</th>
+            <th style="text-align: center;">TIME</th>
+        </tr>
+        </thead>
+        {% for d in data %}
 
-    hello
-
-
+        <tbody>
+        <tr>
+            <b><td  style="text-align: center;">{{ d.candidate }}</td></b>
+            <b><td  style="text-align: center;">{{ d.test_name }}</td></b>
+            <b><td  style="text-align: center;">{{ d.result }}</td></b>
+            <b><td  style="text-align: center;">{{ d.timestamp }}</td></b>
+        </tr>
+        </tbody>
+{% endfor %}
+    </table></br></br></br></br></br></br></br></br></br></br></br>
       </div>
     </div>
 </center>

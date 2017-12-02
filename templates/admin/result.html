@@ -1,0 +1,60 @@
+{% extends "admin/admin_base.html" %}
+{% block title %}HOME{% endblock %}
+{% block head %}
+  {{ super() }}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+{% endblock %}
+{% block content %}
+
+<p class="important">
+
+{% if session['email'] %}
+
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:0px">
+    <h5><b><i class="fa fa-dashboard"></i> ALL TEST</b></h5>
+  </header>
+
+  <div class="w3-container">
+    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+                <thead >
+        <tr>
+            <th style="text-align: center;">CANDIDATE</th>
+            <th style="text-align: center;">DATA</th>
+            <th style="text-align: center;">RESULT</th>
+            <th style="text-align: center;">TEST NAME</th>
+            <th style="text-align: center;">CREATED TIME</th>
+        </tr>
+        </thead>
+        {% for d in data %}
+
+        <tbody>
+        <tr>
+            <b><td  style="text-align: center;">{{ d.candidate }}</td></b>
+            <b><td  style="text-align: center;">{{ d.candidate_data }}</td></b>
+            <b><td  style="text-align: center;">{{ d.result }}</td></b>
+            <b><td  style="text-align: center;">{{ d.test_name }}</td></b>
+            <b><td  style="text-align: center;">{{ d.timestamp }}</td></b>
+        </tr>
+        </tbody>
+{% endfor %}
+    </table></br>
+  </div>
+
+  {% else %}
+  <p style="color: red"> You still didn't set your Email, do it
+      <a href="{{ url_for('admin') }}">here</a></p>
+  {% endif %}
+
+</p>
+
+{% endblock %}
+
+
+

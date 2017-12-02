@@ -8,12 +8,13 @@ from bson import ObjectId
 
 class Mdb:
 
-    def  __init__(self):
-        conn_str = 'mongodb://stuser:stpass@ds123956.mlab.com:23956/speakingtest'
+    def __init__(self):
+        conn_str = 'mongodb://stuser:stpass@ds123956.mlab.com:23956/' \
+                   'speakingtest'
         client = MongoClient(conn_str)
         self.db = client['speakingtest']
 # mongodb://<dbuser>:<dbpassword>@ds123956.mlab.com:23956/speakingtest
-        print ("[Mdb] connected to database :: ", self.db)
+        print("[Mdb] connected to database :: ", self.db)
 
 
 ############################################################################
@@ -42,7 +43,7 @@ class Mdb:
         try:
             rec = {
                 'name': name,
-                'email':email,
+                'email': email,
                 'password': pw_hash,
                 'age': age,
                 'phone': phone,
@@ -52,7 +53,7 @@ class Mdb:
             self.db.candidate.insert(rec)
 
         except Exception as exp:
-            print ("add_candidate() :: Got exception: %s", exp)
+            print("add_candidate() :: Got exception: %s", exp)
             print(traceback.format_exc())
 
 ############################################################################
@@ -76,7 +77,7 @@ class Mdb:
             for data in result:
                 name = data['name']
                 password = data['password']
-                print ('password in db class', password)
+                print('password in db class', password)
         return password
 
 ############################################################################
@@ -143,7 +144,7 @@ class Mdb:
 
             self.db.candidate_session.insert(rec)
         except Exception as exp:
-            print ("save_login_info() :: Got exception: %s", exp)
+            print("save_login_info() :: Got exception: %s", exp)
             print(traceback.format_exc())
 
 
@@ -169,7 +170,7 @@ class Mdb:
             }
             self.db.admin.insert(rec)
         except Exception as exp:
-            print ("add_admin() :: Got exception: %s", exp)
+            print("add_admin() :: Got exception: %s", exp)
             print(traceback.format_exc())
 
 ############################################################################
@@ -206,12 +207,12 @@ class Mdb:
             rec = {
                 'name': name,
                 'test': test,
-                'timestamp':ts
+                'timestamp': ts
             }
             self.db.test.insert(rec)
 
         except Exception as exp:
-            print ("add_test() :: Got exception: %s", exp)
+            print("add_test() :: Got exception: %s", exp)
             print(traceback.format_exc())
 
 
@@ -220,22 +221,21 @@ class Mdb:
 #                       REGITRATION CANDIDATE IN DATABASE                  #
 #                                                                          #
 ############################################################################
-    def save_result(self, candidate, test_name, test):
+    def save_result(self, candidate, test, comparison, test_name):
         try:
             ts = datetime.datetime.today().strftime("%a %b %d %X  %Y ")
             rec = {
                 'candidate': candidate,
+                'candidate_data': test,
+                'result': comparison,
                 'test_name': test_name,
-                'result': test,
-                'timestamp':ts
+                'timestamp': ts
             }
             self.db.result.insert(rec)
 
         except Exception as exp:
-            print ("save_result() :: Got exception: %s", exp)
+            print("save_result() :: Got exception: %s", exp)
             print(traceback.format_exc())
-
-
 
 
 ############################################################################
@@ -253,6 +253,20 @@ class Mdb:
 
 ############################################################################
 #                                                                          #
+#                        GET ALL RESULT FROM DATABASE                      #
+#                                                                          #
+############################################################################
+    def get_results(self):
+        collection = self.db["result"]
+        results = collection.find({})
+        ret = []
+        for data in results:
+            ret.append(data)
+        return ret
+
+
+############################################################################
+#                                                                          #
 #                                                                          #
 #                                                                          #
 #                              MAIN                                        #
@@ -263,5 +277,3 @@ class Mdb:
 if __name__ == "__main__":
     mdb = Mdb()
     mdb.add_admin('tom@gmail.com', '123')
-    # mdb.add_candidate('1', 'tom', 'tom@gmail.com', '123', '25', '7845698745', 'mohali', 'male')
-
