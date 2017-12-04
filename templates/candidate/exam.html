@@ -2,14 +2,16 @@
 {% block title %}HOME{% endblock %}
 {% block head %}
   {{ super() }}
-
+ <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">-->
+ <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shoelace-css/1.0.0-beta16/shoelace.css">-->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/admin.css') }}">
 {% endblock %}
 {% block content %}
 
 <p class="important">
 {% if session['name'] %}
 <center><h3 class="well">VOICE TEST</h3></center><hr><br><br><br>
-    <div class="col-lg-12 well">
+    <!--<div class="col-lg-12 well">-->
     <div class="row">
 
       <div class="col s12 m1">
@@ -26,6 +28,7 @@
             <p> {{ d.test }} </p>
 
             {% endfor %}
+            <br><br><br>
           </div>
         </div>
       </div>
@@ -43,11 +46,13 @@
                   </div>
 
                   <button id="start-record-btn" title="Start Recording">Start Recognition</button>
-                    <form action="/candidate/save_result" id="usrform" method="post">
-                    <input type="hidden" value="{{session['name']}}" name="name">
+
+                  <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>
+
+                <form action="/candidate/save_result" id="usrform" method="post">
+                    <input type="hidden" value="{{session['name']}}" name="name"><br>
                     <input type="submit" size="20">
                   </form>
-                  <p id="recording-instructions">Press the <strong>Start Recognition</strong> button and allow access.</p>
                 </div>
 
               </p>
@@ -60,7 +65,7 @@
         <div class="card"></div>
       </div>
     </div>
-</div><br><br>
+</div><br><br><br>
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </center>
 
