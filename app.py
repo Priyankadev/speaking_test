@@ -33,15 +33,15 @@ app = Flask(__name__)
 bcrypt = Bcrypt(app)
 mdb = Mdb()
 
-mail=Mail(app)
-
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'ss0973385@gmail.com'
-app.config['MAIL_PASSWORD'] = 'abckbc123#'
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-mail = Mail(app)
+# mail=Mail(app)
+#
+# app.config['MAIL_SERVER']='smtp.gmail.com'
+# app.config['MAIL_PORT'] = 465
+# app.config['MAIL_USERNAME'] = 'ss0973385@gmail.com'
+# app.config['MAIL_PASSWORD'] = 'abckbc123#'
+# app.config['MAIL_USE_TLS'] = False
+# app.config['MAIL_USE_SSL'] = True
+# mail = Mail(app)
 
 
 #############################################
@@ -191,10 +191,10 @@ def add_candidate():
             mdb.add_candidate(name, email, pw_hash, age, phone, address,
                               gender)
             print('User Is Added Successfully')
-            msg = Message('Welcome To Speaking Test', sender = email, recipients = [email])
-            msg.body = "Your account has been created – now it will be easier " \
-                       "than ever to share and connect with your friends and family."
-            mail.send(msg)
+            # msg = Message('Welcome To Speaking Test', sender = email, recipients = [email])
+            # msg.body = "Your account has been created – now it will be easier " \
+            #            "than ever to share and connect with your friends and family."
+            # mail.send(msg)
             return render_template('candidate/home.html', session=session)
 
     except Exception as exp:
@@ -288,10 +288,10 @@ def candidate_login():
         ret['err'] = 1
         print(traceback.format_exc())
     # return jsonify(ret)
-    msg = Message('Signin Speaking test', sender = email, recipients = [email])
-    msg.body = "Your account has been login – now it will be easier " \
-                       "than ever to share and connect with your friends and family."
-    mail.send(msg)
+    # msg = Message('Signin Speaking test', sender = email, recipients = [email])
+    # msg.body = "Your account has been login – now it will be easier " \
+    #                    "than ever to share and connect with your friends and family."
+    # mail.send(msg)
     return render_template('candidate/home.html', session=session)
 
 
